@@ -1,15 +1,38 @@
 {
-  "name": "@./source",
-  "version": "0.0.0",
+  "name": "smart-message-manager",
+  "version": "1.0.0",
   "license": "MIT",
-  "scripts": {},
   "private": true,
-  "dependencies": {},
-  "devDependencies": {
-    "@nx/js": "21.3.11",
-    "nx": "21.3.11"
-  },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "npx nx run-many --target=type-check",
+    "build": "npx nx run-many --target=build",
+    "dev:models": "npx nx run @workspace/models:dev",
+    "dev:backend": "npx nx run @workspace/backend:dev",
+    "dev:frontend": "npx nx run @workspace/frontend:dev"
+  },
+  "dependencies": {
+    "zod": "^4.0.17",
+    "@prisma/client": "^6.14.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@nx/js": "21.3.11",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "nx": "21.3.11",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1"
+  }
 }

@@ -1,0 +1,17 @@
+# Build outputs
+dist/
+.next/
+out/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+package-lock.json
+
+# Environment files
+.env*
+
+# Prisma generated
+packages/models/src/prisma/generated/
