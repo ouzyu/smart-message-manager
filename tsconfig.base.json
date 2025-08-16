@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@workspace/models": ["packages/models/src/index.ts"],
+      "@workspace/models/entities": ["packages/models/src/lib/entities/index.ts"],
+      "@workspace/models/schemas": ["packages/models/src/lib/schemas/index.ts"],
+      "@workspace/models/types": ["packages/models/src/lib/types/index.ts"],
+      "@workspace/models/interfaces": ["packages/models/src/lib/interfaces/index.ts"]
+    }
+  }
+}
