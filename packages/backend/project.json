@@ -1,0 +1,29 @@
+{
+  "name": "@workspace/backend",
+  "projectType": "application",
+  "sourceRoot": "packages/backend/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/backend/dist",
+        "main": "packages/backend/src/index.ts",
+        "tsConfig": "packages/backend/tsconfig.json"
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "@workspace/backend:build"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev",
+        "cwd": "packages/backend"
+      }
+    }
+  }
+}
