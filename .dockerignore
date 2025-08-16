@@ -1,0 +1,6 @@
+packages/*/dist
+packages/*/src/prisma/generated
+packages/*/node_modules/.prisma
+node_modules
+.git
+.env.local
