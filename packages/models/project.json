@@ -1,0 +1,32 @@
+{
+  "name": "@workspace/models",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/models/dist",
+        "main": "packages/models/src/index.ts",
+        "tsConfig": "packages/models/tsconfig.json"
+      }
+    },
+    "migrate": {
+      "executor": "@nx/js:node",
+      "options": {
+        "command": "cd packages/models/src/prisma && npx prisma migrate deploy"
+      }
+    },
+    "migrate-dev": {
+      "executor": "@nx/js:node",
+      "options": {
+        "command": "cd packages/models/src/prisma && npx prisma migrate dev"
+      }
+    },
+    "db-generate": {
+      "executor": "@nx/js:node",
+      "options": {
+        "command": "cd packages/models/src/prisma && npx prisma generate"
+      }
+    }
+  }
+}
