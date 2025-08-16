@@ -1,0 +1,35 @@
+{
+  "name": "@workspace/frontend",
+  "projectType": "application",
+  "sourceRoot": "packages/frontend/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/frontend/.next"
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "options": {
+        "buildTarget": "@workspace/frontend:build",
+        "dev": true
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run dev",
+        "cwd": "packages/frontend"
+      }
+    },
+    "type-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npm run type-check",
+        "cwd": "packages/frontend"
+      }
+    }
+  }
+}
