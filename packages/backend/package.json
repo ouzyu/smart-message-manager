@@ -1,0 +1,37 @@
+{
+  "name": "@workspace/backend",
+  "version": "1.0.0",
+  "description": "Express TypeScript API server",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=22.18.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts",
+    "build": "tsc",
+    "start": "node -r tsconfig-paths/register dist/index.js",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@workspace/models": "*",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.2.1",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.2"
+  }
+}
