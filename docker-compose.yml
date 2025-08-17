@@ -42,6 +42,26 @@ services:
     networks:
       - app-network
 
+  frontend:
+    build:
+      context: .
+      dockerfile: packages/frontend/Dockerfile.dev
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://backend:3001
+    volumes:
+      - ./packages/frontend/src:/app/packages/frontend/src
+      - ./packages/models:/app/packages/models
+      - /app/packages/frontend/node_modules
+      - /app/packages/frontend/.next
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
 volumes:
   mysql_data:
 

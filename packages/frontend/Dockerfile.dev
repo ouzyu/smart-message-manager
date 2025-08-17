@@ -1,0 +1,21 @@
+FROM node:22.18.0-alpine
+
+WORKDIR /app
+
+# package.json と package-lock.json をコピー
+COPY package*.json ./
+COPY packages/frontend/package*.json ./packages/frontend/
+COPY packages/models/package*.json ./packages/models/
+
+# 依存関係をインストール
+RUN npm install
+
+# ソースコードをコピー
+COPY . .
+
+# フロントエンドの作業ディレクトリに移動
+WORKDIR /app/packages/frontend
+
+# 開発サーバーを起動
+EXPOSE 3000
+CMD ["npm", "run", "dev"]

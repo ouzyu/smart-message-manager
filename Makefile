@@ -66,6 +66,31 @@ install-deps:
 # 開発用セットアップ（既存DBをリセットして初期化）
 dev-setup: up db-migrate-reset db-seed
 
+# 全サービス同時起動
+.PHONY: dev-all dev-stack
+
+# フロントエンド・バックエンド・DB同時起動
+dev-all:
+	docker-compose up -d mysql backend frontend
+
+# 完全な開発スタック起動
+dev-stack: up
+
+# 個別サービス起動
+.PHONY: dev-frontend dev-backend dev-mysql
+
+dev-frontend:
+	docker-compose up -d frontend
+
+dev-frontend-turbo:
+	cd packages/frontend && npm run dev:turbo
+
+dev-backend:
+	docker-compose up -d backend
+
+dev-mysql:
+	docker-compose up -d mysql
+
 # よく使う組み合わせコマンド
 .PHONY: fresh restart
 
@@ -134,27 +159,35 @@ troubleshoot:
 # ヘルプにコマンドを追加
 help:
 	@echo "利用可能なコマンド:"
-	@echo "  make up              - Docker環境起動"
-	@echo "  make down            - Docker環境停止"
-	@echo "  make build           - Docker環境ビルド・起動"
-	@echo "  make logs            - ログ確認"
-	@echo "  make clean           - Docker環境クリーンアップ"
+	@echo "  make up              		- Docker環境起動"
+	@echo "  make down            		- Docker環境停止"
+	@echo "  make build           		- Docker環境ビルド・起動"
+	@echo "  make logs            		- ログ確認"
+	@echo "  make clean           		- Docker環境クリーンアップ"
 	@echo ""
-	@echo "  make db-generate     - Prismaクライアント生成"
-	@echo "  make db-migrate      - マイグレーション作成・適用"
-	@echo "  make db-migrate-deploy - マイグレーション適用（本番用）"
-	@echo "  make db-migrate-reset  - データベースリセット"
-	@echo "  make db-push         - スキーマ直接プッシュ"
-	@echo "  make db-studio       - Prisma Studio起動"
-	@echo "  make db-seed         - シードデータ投入"
+	@echo "=== 開発環境 ==="
+	@echo "  make setup           		- 初回セットアップ"
+	@echo "  make dev-setup       		- 開発用セットアップ"
+	@echo "  make fresh           		- 完全リフレッシュ"
+	@echo "  make restart         		- Docker再起動"
+	@echo "  make dev-all         		- フロントエンド・バックエンド・DB同時起動"
+	@echo "  make dev-stack       		- 完全な開発スタック起動"
+	@echo "  make dev-frontend    		- フロントエンドのみ起動"
+	@echo "  make dev-frontend-turbo  - Dockerを使わず、turbopackを有効化して起動"
+	@echo "  make dev-backend     		- バックエンドのみ起動"
+	@echo "  make dev-mysql       		- MySQLのみ起動"
 	@echo ""
-	@echo "  make setup           - 初回セットアップ"
-	@echo "  make dev-setup       - 開発用セットアップ"
-	@echo "  make fresh           - 完全リフレッシュ"
-	@echo "  make restart         - Docker再起動"
+	@echo "=== DB ==="
+	@echo "  make db-generate     		- Prismaクライアント生成"
+	@echo "  make db-migrate      		- マイグレーション作成・適用"
+	@echo "  make db-migrate-deploy 	- マイグレーション適用（本番用）"
+	@echo "  make db-migrate-reset  	- データベースリセット"
+	@echo "  make db-push         		- スキーマ直接プッシュ"
+	@echo "  make db-studio       		- Prisma Studio起動"
+	@echo "  make db-seed         		- シードデータ投入"
 	@echo ""
 	@echo "=== トラブル解決用 ==="
-	@echo "  make db-init         - Prisma完全初期化"
-	@echo "  make db-clean-all    - Prismaクリーンアップ"
-	@echo "  make fresh-db        - データベース完全リセット"
-	@echo "  make troubleshoot    - 問題診断情報表示"
+	@echo "  make db-init         		- Prisma完全初期化"
+	@echo "  make db-clean-all    		- Prismaクリーンアップ"
+	@echo "  make fresh-db        		- データベース完全リセット"
+	@echo "  make troubleshoot    		- 問題診断情報表示"
