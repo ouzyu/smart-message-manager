@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -52,9 +50,12 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://backend:3001
+      - WATCHPACK_POLLING=true
     volumes:
       - ./packages/frontend/src:/app/packages/frontend/src
       - ./packages/models:/app/packages/models
+      - ./packages/frontend/public:/app/packages/frontend/public
+      - ./packages/frontend/next.config.ts:/app/packages/frontend/next.config.ts
       - /app/packages/frontend/node_modules
       - /app/packages/frontend/.next
     depends_on:
