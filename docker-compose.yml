@@ -31,10 +31,15 @@ services:
     environment:
       - NODE_ENV=development
       - DATABASE_URL=mysql://app_user:app_password@mysql:3306/smart_message_manager_db
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+      - WATCHPACK_POLLING=true
     volumes:
       - ./packages/backend/src:/app/packages/backend/src
       - ./packages/models-client:/app/packages/models-client
       - ./packages/models:/app/packages/models
+      - /app/packages/backend/node_modules
+      - /app/packages/models/node_modules
     depends_on:
       mysql:
         condition: service_healthy
