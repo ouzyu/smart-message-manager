@@ -1,0 +1,17 @@
+{
+  "name": "@workspace/models-client",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:node",
+      "options": {
+        "command": "echo 'Built by @workspace/models'"
+      }
+    },
+    "clean": {
+      "executor": "@nx/js:node",
+      "options": {
+        "command": "rm -rf packages/models-client/dist"
+      }
+    }
+  }
+}

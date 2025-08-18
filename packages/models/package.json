@@ -30,8 +30,11 @@
     "db:push": "npx prisma db push",
     "db:studio": "npx prisma studio",
     "db:seed": "npx prisma db seed",
-    "build": "npm run generate && npm run copy-generated && tsc",
     "copy-generated": "ts-node src/scripts/copy-generated.ts",
+    "build:compile": "tsc",
+    "build:split": "ts-node src/scripts/build-split.ts",
+    "build:prepare": "npm run generate && npm run copy-generated && npm run build:compile",
+    "build": "npm run build:prepare && npm run build:split",
     "dev": "tsc --watch"
   },
   "keywords": [],

@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/models-types",
+  "version": "1.0.0",
+  "description": "Type definitions and schemas for frontend use",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schemas": {
+      "types": "./dist/lib/schemas/index.d.ts",
+      "default": "./dist/lib/schemas/index.js"
+    },
+    "./interfaces": {
+      "types": "./dist/lib/interfaces/index.d.ts",
+      "default": "./dist/lib/interfaces/index.js"
+    }
+  },
+  "scripts": {
+    "build": "echo 'Built by @workspace/models'",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

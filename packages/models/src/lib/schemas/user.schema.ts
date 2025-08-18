@@ -21,3 +21,7 @@ export const UserResponseSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
 }) satisfies z.ZodType<Omit<User, 'password'>>;
+
+export type UserCreateRequest = z.infer<typeof UserCreateSchema>;
+export type UserUpdateRequest = z.infer<typeof UserUpdateSchema>;
+export type UserResponse = z.infer<typeof UserResponseSchema>;
