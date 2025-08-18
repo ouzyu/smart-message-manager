@@ -24,9 +24,10 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/features/*": ["./src/features/*"],
-      "@/shared/*": ["./src/shared/*"],
+      "@/services/*": ["./services/*"],
+      "@/api/*": ["./src/services/api/*"],
       "@/app/*": ["./src/app/*"],
-      "@/lib/*": ["./src/lib/*"]
+      "@/lib/*": ["src/lib/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
