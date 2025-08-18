@@ -28,6 +28,9 @@
       "@/api/*": ["./src/services/api/*"],
       "@/app/*": ["./src/app/*"],
       "@/lib/*": ["src/lib/*"],
+      "@workspace/models-types": ["../models-types/dist/index"],
+      "@workspace/models-types/schemas": ["../models-types/dist/schemas/index"],
+      "@workspace/models-types/interfaces": ["../models-types/dist/interfaces/index"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],

@@ -33,6 +33,7 @@ services:
       - DATABASE_URL=mysql://app_user:app_password@mysql:3306/smart_message_manager_db
     volumes:
       - ./packages/backend/src:/app/packages/backend/src
+      - ./packages/models-client:/app/packages/models-client
       - ./packages/models:/app/packages/models
     depends_on:
       mysql:
@@ -53,7 +54,7 @@ services:
       - WATCHPACK_POLLING=true
     volumes:
       - ./packages/frontend/src:/app/packages/frontend/src
-      - ./packages/models:/app/packages/models
+      - ./packages/models-types:/app/packages/models-types
       - ./packages/frontend/public:/app/packages/frontend/public
       - ./packages/frontend/next.config.ts:/app/packages/frontend/next.config.ts
       - /app/packages/frontend/node_modules

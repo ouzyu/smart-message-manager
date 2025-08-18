@@ -5,6 +5,7 @@ WORKDIR /app
 # パッケージファイルをコピー
 COPY package*.json ./
 COPY packages/backend/package*.json ./packages/backend/
+COPY packages/models-client/package*.json ./packages/models-client/
 COPY packages/models/package*.json ./packages/models/
 
 # workspacesを含めて依存関係をインストール
@@ -15,8 +16,9 @@ COPY tsconfig*.json ./
 COPY nx.json ./
 
 # ソースコードをコピー
-COPY packages/models ./packages/models
+COPY packages/models-client ./packages/models-client
 COPY packages/backend ./packages/backend
+COPY packages/models ./packages/models
 
 RUN cd packages/models && npx prisma generate
 

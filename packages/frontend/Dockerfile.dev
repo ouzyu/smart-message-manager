@@ -5,7 +5,7 @@ WORKDIR /app
 # package.json と package-lock.json をコピー
 COPY package*.json ./
 COPY packages/frontend/package*.json ./packages/frontend/
-COPY packages/models/package*.json ./packages/models/
+COPY packages/models-types/package*.json ./packages/models-types/
 
 # 依存関係をインストール
 RUN npm install

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@workspace/models';
+import { Prisma, PrismaClient } from '@workspace/models-client/entities';
 
 // ログレベルの型定義
 const developmentLogLevels: Prisma.LogLevel[] = ['query', 'info', 'warn', 'error'];

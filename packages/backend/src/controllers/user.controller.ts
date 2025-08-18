@@ -1,6 +1,5 @@
-import type { User } from '@workspace/models/entities';
-import { IdParamSchema, UserCreateSchema } from '@workspace/models/schemas';
-import type { ApiResponse } from '@workspace/models/types';
+import type { ApiResponse } from '@workspace/models-client/interfaces';
+import { IdParamSchema, UserCreateSchema, UserResponse } from '@workspace/models-client/schemas';
 import { Request, Response } from 'express';
 
 import { userService } from '@/services';
@@ -11,7 +10,7 @@ export const create = async (req: Request, res: Response) => {
 
     const user = await userService.create(validatedData);
 
-    const response: ApiResponse<User> = {
+    const response: ApiResponse<UserResponse> = {
       success: true,
       data: user,
       message: 'User created successfully',
@@ -58,7 +57,7 @@ export const get = async (req: Request, res: Response) => {
       });
     }
 
-    const response: ApiResponse<User> = {
+    const response: ApiResponse<UserResponse> = {
       success: true,
       data: user,
     };

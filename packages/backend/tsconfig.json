@@ -23,7 +23,11 @@
       "@/repositories/*": ["repositories/*"],
       "@/middleware/*": ["middleware/*"],
       "@/routes/*": ["routes/*"],
-      "@/utils/*": ["utils/*"]
+      "@/utils/*": ["utils/*"],
+      "@workspace/models-client": ["../models-client/dist/index"],
+      "@workspace/models-client/entities": ["../models-client/dist/lib/entities/index"],
+      "@workspace/models-client/schemas": ["../models-client/dist/lib/schemas/index"],
+      "@workspace/models-client/interfaces": ["../models-client/dist/lib/interfaces/index"]
     }
   },
   "include": ["src/**/*"],
