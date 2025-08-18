@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/shadcn/avatar';
 import { Button } from '@/components/shadcn/button';
+import { ThemeToggleButton } from '@/components/theme/ThemeToggleButton';
 import { ChevronDown } from 'lucide-react';
 
 export function Header() {
@@ -10,6 +11,7 @@ export function Header() {
       </div>
 
       <div className="flex items-center space-x-2">
+        <ThemeToggleButton />
         <Button variant="ghost" className="flex items-center gap-2 p-2">
           <Avatar className="h-8 w-8">
             <AvatarImage src="" alt="User" />

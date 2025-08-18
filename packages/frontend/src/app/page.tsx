@@ -1,4 +1,5 @@
 import { Button } from '@/components/shadcn/button';
+import { ThemeToggleButton } from '@/components/theme/ThemeToggleButton';
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
               <h1 className="text-2xl font-bold">SSM</h1>
             </div>
             <div className="flex items-center space-x-4">
+              <ThemeToggleButton />
               <Button variant="ghost" asChild>
                 <Link href="/login">ログイン</Link>
               </Button>
