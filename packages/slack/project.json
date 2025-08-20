@@ -1,0 +1,40 @@
+{
+  "name": "@workspace/slack",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/slack/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/slack/dist",
+        "main": "packages/slack/src/index.ts",
+        "tsConfig": "packages/slack/tsconfig.json"
+      }
+    },
+    "build:watch": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "packages/slack/dist",
+        "main": "packages/slack/src/index.ts",
+        "tsConfig": "packages/slack/tsconfig.json",
+        "watch": true
+      }
+    },
+    "clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "rm -rf packages/slack/dist"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/slack/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["scope:slack", "type:lib"]
+}
