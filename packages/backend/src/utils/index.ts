@@ -1,0 +1,1 @@
+export { handleAppError } from './errorHandler';
