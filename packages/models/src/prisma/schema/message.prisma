@@ -1,0 +1,25 @@
+// Slackのメッセージのメタデータのみを管理する。
+// 本文はSlackのポリシー違反となるため保存しない。
+model Message {
+  // カラム定義
+  id              BigInt   @id @default(autoincrement())
+  slackTeamId     String   @map("slack_team_id") @db.VarChar(20)
+  mentionedUserId String   @map("mentioned_user_id") @db.VarChar(20)
+  slackMessageId  String   @map("slack_message_id") @db.VarChar(20)
+  slackChannelId  String   @map("slack_channel_id") @db.VarChar(20)
+  slackThreadId   String   @map("slack_thread_id") @db.VarChar(20)
+  isNotified      Boolean  @default(false) @map("is_notified")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // リレーション
+  team Team @relation(fields: [slackTeamId], references: [slackTeamId], onDelete: Cascade)
+  user User @relation(fields: [slackTeamId, mentionedUserId], references: [slackTeamId, slackUserId], onDelete: Cascade)
+
+  @@unique([slackTeamId, slackChannelId, slackMessageId], name: "unique_team_channel_message")
+  @@index([slackTeamId, mentionedUserId])
+  @@index([slackTeamId, slackChannelId])
+  @@index([isNotified, createdAt])
+  @@index([createdAt])
+  @@map("messages")
+}

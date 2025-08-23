@@ -10,16 +10,20 @@
       "default": "./dist/index.js"
     },
     "./entities": {
-      "types": "./dist/lib/entities/index.d.ts",
-      "default": "./dist/lib/entities/index.js"
+      "types": "./dist/entities/index.d.ts",
+      "default": "./dist/entities/index.js"
     },
     "./schemas": {
-      "types": "./dist/lib/schemas/index.d.ts",
-      "default": "./dist/lib/schemas/index.js"
+      "types": "./dist/schemas/index.d.ts",
+      "default": "./dist/schemas/index.js"
     },
-    "./interfaces": {
-      "types": "./dist/lib/interfaces/index.d.ts",
-      "default": "./dist/lib/interfaces/index.js"
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "default": "./dist/utils/index.js"
     }
   },
   "scripts": {

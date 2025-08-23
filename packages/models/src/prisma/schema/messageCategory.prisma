@@ -1,0 +1,19 @@
+// メッセージカテゴリ情報を管理する
+model MessageCategory {
+  // カラム定義
+  id                  Int      @id @default(autoincrement())
+  userId              Int      @map("user_id")
+  categoryName        String   @map("category_name") @db.VarChar(100)
+  categoryDescription String   @map("category_description") @db.VarChar(200)
+  displayOrder        Int      @map("display_order")
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // リレーション
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, categoryName]) // カテゴリ名の重複を防止
+  @@unique([userId, displayOrder]) // 表示順の重複を防止
+  @@index([userId])
+  @@map("message_categories")
+}

@@ -1,10 +1,26 @@
+// Slackのユーザー情報を管理する
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  // カラム定義
+  id             Int       @id @default(autoincrement())
+  slackTeamId    String    @map("slack_team_id") @db.VarChar(20)
+  slackUserId    String    @map("slack_user_id") @db.VarChar(20)
+  firebaseUserId String    @unique @map("firebase_user_id") @db.VarChar(128) // "slackTeamId_slackUserId"の組み合わせで作成される
+  isAdmin        Boolean   @default(false) @map("is_admin")
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
+  // リレーション
+  team              Team               @relation(fields: [slackTeamId], references: [slackTeamId], onDelete: Cascade)
+  messages          Message[]
+  userSetting       UserSetting?
+  messageCategories MessageCategory[]
+  installedChannels InstalledChannel[]
+
+  @@unique([slackTeamId, slackUserId])
+  @@index([firebaseUserId])
+  @@index([slackTeamId, isAdmin])
+  @@index([deletedAt])
+  @@index([createdAt])
   @@map("users")
 }

@@ -17,9 +17,7 @@
     "declarationMap": true,
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"],
-      "@generated/client": ["prisma/generated/client"],
-      "@generated/zod": ["prisma/generated/zod/schemas"]
+      "@/*": ["*"]
     }
   },
   "include": ["src/**/*"],

@@ -1,17 +1,19 @@
+import { AppErrorType } from './error.type';
+
 // APIレスポンスの基本の型を定義
-export interface ApiResponse<T> {
+export type ApiResponse<T> = {
   success: boolean;
   data?: T;
   message?: string;
   error?: {
-    code: string;
+    code: AppErrorType;
     message: string;
     details?: unknown;
   };
-}
+};
 
 // データベース設定
-export interface DatabaseConfig {
+export type DatabaseConfig = {
   url: string;
   maxConnections?: number;
-}
+};

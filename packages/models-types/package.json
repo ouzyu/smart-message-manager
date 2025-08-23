@@ -10,12 +10,12 @@
       "default": "./dist/index.js"
     },
     "./schemas": {
-      "types": "./dist/lib/schemas/index.d.ts",
-      "default": "./dist/lib/schemas/index.js"
+      "types": "./dist/schemas/index.d.ts",
+      "default": "./dist/schemas/index.js"
     },
-    "./interfaces": {
-      "types": "./dist/lib/interfaces/index.d.ts",
-      "default": "./dist/lib/interfaces/index.js"
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
     }
   },
   "scripts": {

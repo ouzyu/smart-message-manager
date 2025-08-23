@@ -1,0 +1,23 @@
+// ユーザーの設定情報を管理する
+model UserSetting {
+  // カラム定義
+  id              Int      @id @default(autoincrement())
+  userId          Int      @unique @map("user_id")
+  sendDailyReport Boolean  @default(false) @map("send_daily_report")
+  sendReportTime  String   @default("18:00") @map("send_report_time") @db.VarChar(5) // 例: "09:00"
+  sendMonday      Boolean  @default(true) @map("send_monday")
+  sendTuesday     Boolean  @default(true) @map("send_tuesday")
+  sendWednesday   Boolean  @default(true) @map("send_wednesday")
+  sendThursday    Boolean  @default(true) @map("send_thursday")
+  sendFriday      Boolean  @default(true) @map("send_friday")
+  sendSaturday    Boolean  @default(false) @map("send_saturday")
+  sendSunday      Boolean  @default(false) @map("send_sunday")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // リレーション
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_settings")
+}

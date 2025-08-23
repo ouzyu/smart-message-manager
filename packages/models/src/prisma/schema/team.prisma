@@ -1,0 +1,21 @@
+// // Slackワークスペース情報を管理する
+model Team {
+  // カラム定義
+  id                   Int      @id @default(autoincrement())
+  slackTeamId          String   @unique @map("slack_team_id") @db.VarChar(20)
+  slackTeamName        String   @default("Unnamed Workspace") @map("slack_team_name") @db.VarChar(255)
+  slackWorkspaceDomain String   @map("slack_workspace_domain") @db.VarChar(100)
+  slackBotToken        String   @map("slack_bot_token") @db.Text
+  slackBotUserId       String   @map("slack_bot_user_id") @db.VarChar(20)
+  slackAppId           String   @map("slack_app_id") @db.VarChar(20)
+  installedAt          DateTime @default(now()) @map("installed_at") @db.Timestamptz
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // リレーション
+  users             User[]
+  messages          Message[]
+  installedChannels InstalledChannel[]
+
+  @@index([slackTeamId, installedAt])
+  @@map("teams")
+}

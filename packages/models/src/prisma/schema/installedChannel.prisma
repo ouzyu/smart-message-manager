@@ -1,0 +1,19 @@
+// SlackワークスペースにインストールされているAppのチャンネルを管理する
+model InstalledChannel {
+  // カラム定義
+  id              Int      @id @default(autoincrement())
+  slackTeamId     String   @map("slack_team_id") @db.VarChar(20)
+  slackChannelId  String   @map("slack_channel_id") @db.VarChar(20)
+  installedUserId Int      @map("installed_user_id")
+  isImportant     Boolean  @default(false) @map("is_important")
+  installedAt     DateTime @default(now()) @map("installed_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // リレーション
+  team Team @relation(fields: [slackTeamId], references: [slackTeamId], onDelete: Cascade)
+  user User @relation(fields: [installedUserId], references: [id], onDelete: Cascade)
+
+  @@unique([slackTeamId, slackChannelId])
+  @@index([slackTeamId])
+  @@map("installed_channels")
+}

@@ -7,41 +7,41 @@ const CLIENT_DIST = path.join(__dirname, '../../../models-client/dist');
 
 /**
  * フロントエンド用の型定義パッケージをビルドする
- * schemas と interfaces のみを含む（Prismaクライアントは除外）
+ * schemas と types のみを含む（Prismaクライアントは除外）
  * この工程は一元管理とセキュリティ対策のために行う
  */
 export const buildTypesPackage = async (): Promise<void> => {
   console.log('Building models-types package...');
 
-  // dist/lib/schemas と dist/lib/interfaces のみコピー
+  // dist/schemas と dist/types のみコピー
   await fs.ensureDir(TYPES_DIST);
-  await fs.copy(path.join(MODELS_DIST, 'lib/schemas'), path.join(TYPES_DIST, 'schemas'));
-  await fs.copy(path.join(MODELS_DIST, 'lib/interfaces'), path.join(TYPES_DIST, 'interfaces'));
+  await fs.copy(path.join(MODELS_DIST, 'schemas'), path.join(TYPES_DIST, 'schemas'));
+  await fs.copy(path.join(MODELS_DIST, 'types'), path.join(TYPES_DIST, 'types'));
 
   // JavaScript用のindex.js
   const indexContent = `
 export * from './schemas';
-export * from './interfaces';
+export * from './types';
 `;
   await fs.writeFile(path.join(TYPES_DIST, 'index.js'), indexContent);
 
   // TypeScript用のindex.d.ts
   const indexDtsContent = `
 export * from './schemas';
-export * from './interfaces';
+export * from './types';
 `;
   await fs.writeFile(path.join(TYPES_DIST, 'index.d.ts'), indexDtsContent);
 };
 
 /**
  * サーバーサイド用の完全なモデルパッケージをビルドする
- * schemas、interfaces、entities（Prismaクライアント含む）をすべて含む
+ * schemas、types、entities（Prismaクライアント含む）をすべて含む
  * この工程はDB操作機能をサーバーサイドで利用するために行う
  */
 export const buildClientPackage = async (): Promise<void> => {
   console.log('Building models-client package...');
 
-  // 全てをコピー（schemas + interfaces + entities）
+  // 全てをコピー（schemas + types + entities）
   await fs.ensureDir(CLIENT_DIST);
   await fs.copy(MODELS_DIST, CLIENT_DIST);
 };

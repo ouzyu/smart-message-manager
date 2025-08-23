@@ -1,0 +1,11 @@
+// ユーザー新規作成時、メッセージカテゴリを作成すためのマスタデータとして利用する
+model MasterMessageCategory {
+  // カラム定義
+  id                  Int      @id @default(autoincrement())
+  categoryName        String   @map("category_name") @db.VarChar(100)
+  categoryDescription String   @map("category_description") @db.VarChar(200)
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("master_message_categories")
+}
