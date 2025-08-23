@@ -1,22 +1,23 @@
 services:
-  mysql:
-    image: mysql:8.0
+  postgres:
+    image: postgres:16
     restart: always
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: smart_message_manager_db
-      MYSQL_USER: app_user
-      MYSQL_PASSWORD: app_password
+      POSTGRES_DB: smart_message_manager_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_ROOT_PASSWORD: root_password
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    command: --default-authentication-plugin=mysql_native_password
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD-SHELL', 'pg_isready -U app_user -d smart_message_manager_db']
       timeout: 10s
       retries: 5
       start_period: 30s
@@ -28,9 +29,9 @@ services:
     restart: always
     ports:
       - '3001:3001'
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=development
-      - DATABASE_URL=mysql://app_user:app_password@mysql:3306/smart_message_manager_db
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
       - WATCHPACK_POLLING=true
@@ -38,10 +39,12 @@ services:
       - ./packages/backend/src:/app/packages/backend/src
       - ./packages/models-client:/app/packages/models-client
       - ./packages/models:/app/packages/models
+      - ./packages/slack:/app/packages/slack
       - /app/packages/backend/node_modules
       - /app/packages/models/node_modules
+      - /app/packages/slack/node_modules
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
     networks:
       - app-network
@@ -53,6 +56,8 @@ services:
     restart: always
     ports:
       - '3000:3000'
+    env_file:
+      - .env
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://backend:3001
@@ -70,7 +75,7 @@ services:
       - app-network
 
 volumes:
-  mysql_data:
+  postgres_data:
 
 networks:
   app-network:

@@ -1,5 +1,5 @@
 # Docker関連
-.PHONY: up down build logs clean
+.PHONY: up down build build-no-cache logs clean
 
 # Docker環境の起動
 up:
@@ -13,6 +13,9 @@ down:
 build:
 	docker-compose up -d --build
 
+build-no-cache:
+	docker compose build --no-cache
+
 # ログ確認
 logs:
 	docker-compose logs -f
@@ -22,7 +25,7 @@ clean:
 	docker-compose down -v --remove-orphans
 	docker system prune -f
 
-# Prisma関連（modelsパッケージ内で実行）
+# Prisma関連
 .PHONY: db-generate db-migrate db-migrate-deploy db-migrate-reset db-push db-studio db-seed
 
 # Prismaクライアント生成
@@ -71,13 +74,13 @@ dev-setup: up db-migrate-reset db-seed
 
 # フロントエンド・バックエンド・DB同時起動
 dev-all:
-	docker-compose up -d mysql backend frontend
+	docker-compose up -d postgres backend frontend
 
 # 完全な開発スタック起動
 dev-stack: up
 
 # 個別サービス起動
-.PHONY: dev-frontend dev-backend dev-mysql
+.PHONY: dev-frontend dev-backend dev-postgres
 
 dev-frontend:
 	docker-compose up -d frontend
@@ -88,8 +91,17 @@ dev-frontend-turbo:
 dev-backend:
 	docker-compose up -d backend
 
-dev-mysql:
-	docker-compose up -d mysql
+dev-postgres:
+	docker-compose up -d postgres
+
+# ngrokを起動
+.PHONY: ngrok ngrok-https
+
+ngrok:
+	ngrok http http://localhost:3001
+
+ngrok-https:
+	ngrok http http://localhost:3001 --scheme=https
 
 # よく使う組み合わせコマンド
 .PHONY: fresh restart
@@ -105,15 +117,14 @@ restart: down up
 # Prismaの完全初期化（開発用）
 db-init:
 	@echo "=== Prisma完全初期化を開始 ==="
-	cd packages/models && rm -rf src/prisma/migrations/
-	cd packages/models && rm -rf src/prisma/generated/
+	docker-compose run --rm db-tools sh -c "rm -rf src/prisma/migrations/ src/prisma/generated/"
 	make down
-	docker volume rm smart-message-manager_mysql_data || true
+	docker volume rm smart-message-manager_postgres_data || true
 	make up
 	@echo "=== データベース起動待機中... ==="
 	sleep 10
-	cd packages/models && npx prisma migrate dev --name init
-	cd packages/models && npx prisma generate
+	docker-compose run --rm db-tools sh -c "npm install && npx prisma migrate dev --name init"
+	docker-compose run --rm db-tools sh -c "npm install && npx prisma generate"
 	@echo "=== 初期化完了 ==="
 
 # Prismaの状態をクリーンアップ
@@ -128,7 +139,7 @@ db-clean-all:
 fresh-db: db-clean-all
 	@echo "=== データベース完全リセット開始 ==="
 	make down
-	docker volume rm smart-message-manager_mysql_data || true
+	docker volume rm smart-message-manager_postgres_data || true
 	docker system prune -f
 	make build
 	@echo "=== データベース起動待機中... ==="
@@ -144,8 +155,8 @@ troubleshoot:
 	@echo "Docker コンテナ状態:"
 	docker-compose ps
 	@echo ""
-	@echo "MySQL ボリューム:"
-	docker volume ls | grep mysql || echo "MySQLボリュームなし"
+	@echo "PostgreSQL ボリューム:"
+	docker volume ls | grep postgres || echo "PostgreSQLボリュームなし"
 	@echo ""
 	@echo "マイグレーション履歴:"
 	cd packages/models && ls -la src/prisma/migrations/ || echo "マイグレーションフォルダなし"
@@ -154,7 +165,7 @@ troubleshoot:
 	cd packages/models && find . -name "*.prisma" || echo "Prismaスキーマなし"
 	@echo ""
 	@echo "データベース接続テスト:"
-	docker-compose exec mysql mysqladmin ping -h localhost || echo "MySQL接続エラー"
+	docker-compose exec postgres pg_isready -U app_user -d smart_message_manager_db || echo "PostgreSQL接続エラー"
 
 # ヘルプにコマンドを追加
 help:
@@ -162,6 +173,7 @@ help:
 	@echo "  make up              		- Docker環境起動"
 	@echo "  make down            		- Docker環境停止"
 	@echo "  make build           		- Docker環境ビルド・起動"
+	@echo "  make build-no-cache      - キャッシュ無しでDocker環境ビルド・起動"
 	@echo "  make logs            		- ログ確認"
 	@echo "  make clean           		- Docker環境クリーンアップ"
 	@echo ""
@@ -175,7 +187,9 @@ help:
 	@echo "  make dev-frontend    		- フロントエンドのみ起動"
 	@echo "  make dev-frontend-turbo  - Dockerを使わず、turbopackを有効化して起動"
 	@echo "  make dev-backend     		- バックエンドのみ起動"
-	@echo "  make dev-mysql       		- MySQLのみ起動"
+	@echo "  make dev-postgres       	- PostgreSQLのみ起動"
+	@echo "  make ngrok       			- ngrokを起動"
+	@echo "  make ngrok-https       	- ngrokをhttpsで起動"
 	@echo ""
 	@echo "=== DB ==="
 	@echo "  make db-generate     		- Prismaクライアント生成"
