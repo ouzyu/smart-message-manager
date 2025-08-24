@@ -1,5 +1,8 @@
 FROM node:22.18.0-alpine
 
+# Prismaに必要な依存関係を追加
+RUN apk add --no-cache openssl libssl3
+
 WORKDIR /app
 
 # パッケージファイルをコピー
@@ -21,6 +24,21 @@ COPY packages/models-client ./packages/models-client
 COPY packages/backend ./packages/backend
 COPY packages/models ./packages/models
 COPY packages/slack ./packages/slack
+
+# ローカルで生成されたPrismaファイルを削除
+RUN rm -rf packages/models/src/generated/client
+RUN rm -rf packages/models/node_modules/.prisma
+RUN rm -rf packages/models/node_modules/@prisma/client
+
+# Docker環境用にPrismaクライアントを新規生成
+RUN cd packages/models && \
+    rm -rf /root/.cache && \
+    rm -rf node_modules/.prisma && \
+    rm -rf node_modules/@prisma && \
+    npm install @prisma/client prisma && \
+    PRISMA_FORCE_NAPI=true \
+    PRISMA_CLI_BINARY_TARGETS=linux-musl-openssl-3.0.x \
+    npx prisma generate --schema=src/prisma/schema/schema.prisma
 
 # 開発用ポート
 EXPOSE 3001
