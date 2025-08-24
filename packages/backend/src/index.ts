@@ -1,3 +1,4 @@
+import { createBoltApp } from '@workspace/slack';
 import cors from 'cors';
 import { config } from 'dotenv';
 import express from 'express';
@@ -14,6 +15,15 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+
+const slackApp = createBoltApp({
+  token: process.env.SLACK_BOT_TOKEN!,
+  signingSecret: process.env.SLACK_SIGNING_SECRET!,
+  environment: (process.env.NODE_ENV as 'development' | 'production') || 'development',
+});
+
+// Slack イベントエンドポイント
+app.use(slackApp.receiver.router);
 
 // セキュリティミドルウェア
 app.use(helmet());
