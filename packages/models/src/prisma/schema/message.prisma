@@ -4,7 +4,7 @@ model Message {
   // カラム定義
   id              BigInt   @id @default(autoincrement())
   slackTeamId     String   @map("slack_team_id") @db.VarChar(20)
-  mentionedUserId String   @map("mentioned_user_id") @db.VarChar(20)
+  mentionedUserId Int      @map("mentioned_user_id")
   slackMessageId  String   @map("slack_message_id") @db.VarChar(20)
   slackChannelId  String   @map("slack_channel_id") @db.VarChar(20)
   slackThreadId   String   @map("slack_thread_id") @db.VarChar(20)
@@ -14,10 +14,9 @@ model Message {
 
   // リレーション
   team Team @relation(fields: [slackTeamId], references: [slackTeamId], onDelete: Cascade)
-  user User @relation(fields: [slackTeamId, mentionedUserId], references: [slackTeamId, slackUserId], onDelete: Cascade)
+  user User @relation(fields: [mentionedUserId], references: [id], onDelete: Cascade) // 変更点: 単一キーでのリレーション
 
-  @@unique([slackTeamId, slackChannelId, slackMessageId], name: "unique_team_channel_message")
-  @@index([slackTeamId, mentionedUserId])
+  @@index([mentionedUserId])
   @@index([slackTeamId, slackChannelId])
   @@index([isNotified, createdAt])
   @@index([createdAt])
