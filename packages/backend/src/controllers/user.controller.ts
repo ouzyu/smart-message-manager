@@ -1,61 +1,50 @@
-import type { ApiResponse } from '@workspace/models-client/interfaces';
-import { IdParamSchema, UserCreateSchema, UserResponse } from '@workspace/models-client/schemas';
+import { IdParamSchema, UserCreateSchema, UserResponse, UserUpdateSchema } from '@workspace/models-client/schemas';
+import type { ApiResponse } from '@workspace/models-client/types';
 import { Request, Response } from 'express';
 
+import { CURRENT_USER } from '@/constants/debugCurrentUser';
 import { userService } from '@/services';
+import { handleAppError } from '@/utils';
 
-export const create = async (req: Request, res: Response) => {
+export const createWithSettings = async (req: Request, res: Response) => {
   try {
     const validatedData = UserCreateSchema.parse(req.body);
-
-    const user = await userService.create(validatedData);
+    const user = await userService.createWithSettings(validatedData);
 
     const response: ApiResponse<UserResponse> = {
       success: true,
       data: user,
-      message: 'User created successfully',
     };
 
     res.status(201).json(response);
   } catch (error) {
-    if (error instanceof Error && 'issues' in error) {
-      // Zodバリデーションエラーの場合
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Invalid input data',
-          details: error.issues,
-        },
-      });
-    }
-
-    res.status(400).json({
-      success: false,
-      error: {
-        code: 'CREATE_USER_ERROR',
-        message: 'Failed to create user',
-        details: error,
-      },
-    });
+    handleAppError(error, res);
   }
 };
 
-export const get = async (req: Request, res: Response) => {
+export const getBySlackTeamId = async (req: Request, res: Response) => {
   try {
+    const { isAdmin, slackTeamId } = CURRENT_USER; // TODO: firebase auth middlewareから取得するように
+    const users = await userService.getBySlackTeamId(isAdmin, slackTeamId);
+
+    const response: ApiResponse<UserResponse[]> = {
+      success: true,
+      data: users,
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    handleAppError(error, res);
+  }
+};
+
+export const setAdminStatus = async (req: Request, res: Response) => {
+  try {
+    const currentUser = CURRENT_USER; // TODO: firebase auth middlewareから取得するように
     const { id } = IdParamSchema.parse(req.params);
+    const validatedData = UserUpdateSchema.parse(req.body);
 
-    const user = await userService.get(id);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: {
-          code: 'USER_NOT_FOUND',
-          message: 'User not found',
-        },
-      });
-    }
+    const user = await userService.setAdminStatus(currentUser, id, validatedData);
 
     const response: ApiResponse<UserResponse> = {
       success: true,
@@ -64,24 +53,22 @@ export const get = async (req: Request, res: Response) => {
 
     res.status(200).json(response);
   } catch (error) {
-    if (error instanceof Error && 'issues' in error) {
-      return res.status(400).json({
-        success: false,
-        error: {
-          code: 'VALIDATION_ERROR',
-          message: 'Invalid parameter format',
-          details: error.issues,
-        },
-      });
-    }
+    handleAppError(error, res);
+  }
+};
 
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 'GET_USER_ERROR',
-        message: 'Failed to get user',
-        details: error,
-      },
-    });
+export const remove = async (req: Request, res: Response) => {
+  try {
+    const currentUser = CURRENT_USER;
+    const { id } = IdParamSchema.parse(req.params);
+    await userService.remove(currentUser, id);
+
+    const response: ApiResponse<UserResponse> = {
+      success: true,
+    };
+
+    res.status(200).json(response);
+  } catch (error) {
+    handleAppError(error, res);
   }
 };
