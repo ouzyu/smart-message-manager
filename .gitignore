@@ -80,3 +80,6 @@ yarn-error.log*
 
 *.tsbuildinfo
 next-env.d.ts
+
+# その他
+*.drawio*
