@@ -36,7 +36,7 @@ const getStatusCodeForError = (error: AppError): number => {
       return 400;
     case 'AUTHENTICATION_ERROR':
       return 401;
-    case 'AUTHORIZATION_ERROR':
+    case 'FORBIDDEN_ERROR':
       return 403;
     case 'NOT_FOUND_ERROR':
       return 404;
