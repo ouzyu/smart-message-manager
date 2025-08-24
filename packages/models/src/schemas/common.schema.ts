@@ -15,4 +15,21 @@ export const IdParamSchema = z.object({
     }),
 });
 
+export const BigIntIdParamSchema = z.object({
+  id: z
+    .string()
+    .regex(/^\d+$/, { message: 'ID must contain only digits' })
+    .transform(val => {
+      try {
+        return BigInt(val);
+      } catch {
+        throw new Error('Invalid bigint format');
+      }
+    })
+    .refine(num => num > 0n, {
+      message: 'ID must be a positive integer',
+    }),
+});
+
 export type IdParam = z.infer<typeof IdParamSchema>;
+export type BigIntIdParam = z.infer<typeof BigIntIdParamSchema>;
