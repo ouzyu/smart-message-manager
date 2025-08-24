@@ -19,8 +19,8 @@ export const authenticationError = (message: string = 'Authentication required')
   message,
 });
 
-export const authorizationError = (message: string = 'Insufficient permissions'): AppError => ({
-  type: 'AUTHORIZATION_ERROR',
+export const forbiddenError = (message: string = 'Insufficient permissions'): AppError => ({
+  type: 'FORBIDDEN_ERROR',
   message,
 });
 

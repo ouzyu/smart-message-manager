@@ -3,7 +3,7 @@ export type AppErrorType =
   | 'VALIDATION_ERROR' // 400 - バリデーションエラー
   | 'BAD_REQUEST_ERROR' // 400 - 一般的な不正リクエスト
   | 'AUTHENTICATION_ERROR' // 401 - 認証エラー（ログインが必要）
-  | 'AUTHORIZATION_ERROR' // 403 - 認可エラー（権限不足）
+  | 'FORBIDDEN_ERROR' // 403 - 認可エラー（ログイン済みだが権限不足）
   | 'NOT_FOUND_ERROR' // 404 - リソースが見つからない
   | 'METHOD_NOT_ALLOWED_ERROR' // 405 - HTTPメソッドが許可されていない
   | 'CONFLICT_ERROR' // 409 - データの競合（重複など）
