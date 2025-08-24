@@ -9,15 +9,11 @@ userSettingは単体で作成されることはないためcreate処理は実装
 ==============================
 */
 
-export const getByUserId = async (currentUser: CurrentUser, userId: number): Promise<UserSettingResponse> => {
-  if (currentUser.id !== userId) {
-    throw errorCreator.forbiddenError('You do not have permission to get this settings');
-  }
-
-  const userSetting = await userSettingRepository.getByUserId(userId);
+export const getByUserId = async (currentUserId: number): Promise<UserSettingResponse> => {
+  const userSetting = await userSettingRepository.getByUserId(currentUserId);
 
   if (!userSetting) {
-    throw errorCreator.notFoundError(`User Setting with User ID ${userId} not found`, 'user-setting');
+    throw errorCreator.notFoundError(`User Setting with Current User ID ${currentUserId} not found`, 'user-setting');
   }
 
   return userSetting;
