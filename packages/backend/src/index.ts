@@ -5,7 +5,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import { checkDatabaseHealth, connectDatabase, disconnectDatabase } from './lib/database.config';
+import { checkDatabaseHealth, connectDatabase, disconnectDatabase } from './configs/database.config';
 import { router } from './routes/router';
 
 // 環境変数読み込み
