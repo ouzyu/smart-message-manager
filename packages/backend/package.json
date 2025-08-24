@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@workspace/models-client": "*",
+    "@workspace/slack": "*",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
@@ -29,6 +30,8 @@
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.2.1",
+    "@slack/bolt": "^4.4.0",
+    "@slack/web-api": "^7.9.3",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",

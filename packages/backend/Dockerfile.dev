@@ -7,6 +7,7 @@ COPY package*.json ./
 COPY packages/backend/package*.json ./packages/backend/
 COPY packages/models-client/package*.json ./packages/models-client/
 COPY packages/models/package*.json ./packages/models/
+COPY packages/slack/package*.json ./packages/slack/
 
 # workspacesを含めて依存関係をインストール
 RUN npm ci --include-workspace-root --workspaces
@@ -19,8 +20,7 @@ COPY nx.json ./
 COPY packages/models-client ./packages/models-client
 COPY packages/backend ./packages/backend
 COPY packages/models ./packages/models
-
-RUN cd packages/models && npx prisma generate
+COPY packages/slack ./packages/slack
 
 # 開発用ポート
 EXPOSE 3001
