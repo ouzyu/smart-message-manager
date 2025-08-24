@@ -4,5 +4,6 @@ import { userController } from '@/controllers';
 
 export const userRoutes = Router();
 
-userRoutes.post('/', userController.create);
-userRoutes.get('/:id', userController.get);
+userRoutes.get('/', userController.getBySlackTeamId);
+userRoutes.post('/', userController.createWithSettings);
+userRoutes.put('/', userController.setAdminStatus);
