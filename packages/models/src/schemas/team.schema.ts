@@ -5,13 +5,15 @@ export const BaseTeamSchema = z.object({
   slackTeamName: z.string(),
   slackWorkspaceDomain: z.string().min(1).max(100),
   slackBotToken: z.string().min(1, 'Slack Bot Tokenは必須です。'),
+  // リフレッシュトークンも追加する
+  // トークン有効期限も追加する
   slackBotUserId: z.string().min(1, 'Slack Bot User DIは必須です。'),
   slackAppId: z.string().min(1, 'Slack App IDは必須です。'),
 });
 
 export const TeamCreateSchema = BaseTeamSchema;
 
-export const TeamUpdateSchema = BaseTeamSchema.partial();
+export const TeamUpdateSchema = BaseTeamSchema.pick({ slackTeamName: true }).partial();
 
 export const TeamResponseSchema = BaseTeamSchema.extend({
   id: z.number(),

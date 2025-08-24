@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const BaseMessageSchema = z.object({
   slackTeamId: z.string().min(1, 'Slack Team IDは必須です。'),
-  mentionedUserId: z.string().min(1, 'Mentioned User IDは必須です。'),
+  mentionedUserId: z.number().min(1, 'Mentioned User IDは必須です。'),
   slackMessageId: z.string().min(1, 'Slack Message IDは必須です。'),
   slackChannelId: z.string().min(1, 'Slack Channel IDは必須です。'),
   slackThreadId: z.string().min(1, 'Slack Thread IDは必須です。'),
@@ -11,7 +11,7 @@ export const BaseMessageSchema = z.object({
 
 export const MessageCreateSchema = BaseMessageSchema;
 
-export const MessageUpdateSchema = BaseMessageSchema.partial();
+export const MessageUpdateSchema = BaseMessageSchema.pick({ isNotified: true }).partial();
 
 export const MessageResponseSchema = BaseMessageSchema.extend({
   id: z.bigint(),

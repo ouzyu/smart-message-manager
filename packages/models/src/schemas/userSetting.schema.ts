@@ -15,7 +15,7 @@ export const BaseUserSettingSchema = z.object({
 
 export const UserSettingCreateSchema = BaseUserSettingSchema;
 
-export const UserSettingUpdateSchema = BaseUserSettingSchema.partial();
+export const UserSettingUpdateSchema = BaseUserSettingSchema.omit({ userId: true }).partial();
 
 export const UserSettingResponseSchema = BaseUserSettingSchema.extend({
   id: z.number(),

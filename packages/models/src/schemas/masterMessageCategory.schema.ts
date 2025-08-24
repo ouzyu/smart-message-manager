@@ -7,7 +7,10 @@ export const BaseMasterMessageCategorySchema = z.object({
 
 export const MasterMessageCategoryCreateSchema = BaseMasterMessageCategorySchema;
 
-export const MasterMessageCategoryUpdateSchema = BaseMasterMessageCategorySchema.partial();
+export const MasterMessageCategoryUpdateSchema = BaseMasterMessageCategorySchema.pick({
+  categoryName: true,
+  categoryDescription: true,
+}).partial();
 
 export const MasterMessageCategoryResponseSchema = BaseMasterMessageCategorySchema.extend({
   id: z.number(),
@@ -15,6 +18,7 @@ export const MasterMessageCategoryResponseSchema = BaseMasterMessageCategorySche
   updatedAt: z.date(),
 });
 
+export type BaseMasterMessageCategory = z.infer<typeof BaseMasterMessageCategorySchema>;
 export type MasterMessageCategoryCreateRequest = z.infer<typeof MasterMessageCategoryCreateSchema>;
 export type MasterMessageCategoryUpdateRequest = z.infer<typeof MasterMessageCategoryUpdateSchema>;
 export type MasterMessageCategoryResponse = z.infer<typeof MasterMessageCategoryResponseSchema>;

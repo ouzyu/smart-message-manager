@@ -9,7 +9,7 @@ export const BaseInstalledChannelSchema = z.object({
 
 export const InstalledChannelCreateSchema = BaseInstalledChannelSchema;
 
-export const InstalledChannelUpdateSchema = BaseInstalledChannelSchema.partial();
+export const InstalledChannelUpdateSchema = BaseInstalledChannelSchema.pick({ isImportant: true }).partial();
 
 export const InstalledChannelResponseSchema = BaseInstalledChannelSchema.extend({
   id: z.number(),
