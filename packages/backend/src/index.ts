@@ -43,7 +43,7 @@ app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// ヘルスチェックエンドポイント（DB接続確認付き）
+// ヘルスチェックエンドポイント
 app.get('/health', async (req, res) => {
   try {
     const isDatabaseHealthy = await checkDatabaseHealth();
@@ -69,17 +69,6 @@ app.get('/health', async (req, res) => {
 
 // APIルート
 app.use('/api', router);
-
-// エラーハンドリング
-// app.use('*', (req, res) => {
-//   res.status(404).json({
-//     success: false,
-//     error: {
-//       code: 'NOT_FOUND',
-//       message: 'Route not found',
-//     },
-//   });
-// });
 
 // サーバー起動関数
 const startServer = async (): Promise<void> => {
