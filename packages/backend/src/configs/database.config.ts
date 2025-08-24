@@ -19,6 +19,9 @@ export const prismaClient = new PrismaClient({
   errorFormat: databaseConfig.errorFormat,
 });
 
+// トランザクション型をクライアントから作成
+export type PrismaTransaction = Parameters<Parameters<typeof prismaClient.$transaction>[0]>[0];
+
 // データベース接続確認
 export const connectDatabase = async (maxRetries: number = 5, retryDelay: number = 3000): Promise<void> => {
   let lastError: Error;
