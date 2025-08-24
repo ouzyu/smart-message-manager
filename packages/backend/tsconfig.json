@@ -24,7 +24,14 @@
       "@/middleware/*": ["middleware/*"],
       "@/routes/*": ["routes/*"],
       "@/utils/*": ["utils/*"],
+      "@/configs/*": ["configs/*"],
+      "@/constants/*": ["constants/*"],
+
       "@workspace/models-client": ["../models-client/dist/index"],
+      "@workspace/models-client/entities": ["../models-client/dist/entities/index"],
+      "@workspace/models-client/schemas": ["../models-client/dist/schemas/index"],
+      "@workspace/models-client/types": ["../models-client/dist/types/index"],
+      "@workspace/models-client/utils": ["../models-client/dist/utils/index"],
 
       "@workspace/slack": ["../slack/dist/index"],
       "@workspace/slack/services": ["../slack/dist/services"],
